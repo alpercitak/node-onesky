@@ -1,10 +1,13 @@
 {
   "name": "node-onesky",
   "version": "0.0.1",
-  "description": "Node.js OneSky translation service api client",
+  "description": "Node.js OneSky translation service API Client",
   "license": "MIT",
   "author": "Alper Çıtak <citak.alper@gmail.com>",
   "main": "index.js",
+  "scripts": {
+    "test": "echo \"No test specified\""
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alpercitak/node-onesky.git"
