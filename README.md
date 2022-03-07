@@ -2,6 +2,10 @@
 
 Node.js OneSky API Client
 
+```
+npm i node-onesky --save
+```
+
 Create an instance with your OneSky Public Key and Secret Key
 
 ```
