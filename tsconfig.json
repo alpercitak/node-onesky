@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
+    "module": "es2020",
+    "target": "es2015",
     "declaration": true,
-    "outDir": "./bin",
+    "outDir": "./bin/esm",
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
   },
   "include": ["src"],
   "exclude": ["node_modules", "**/__tests__/*"]

@@ -1,9 +1,9 @@
 'use strict';
 
-import url = require('url');
+import url from 'url';
 import request, { AxiosRequestConfig } from 'axios';
-import md5 = require('md5');
-import FormData = require('form-data');
+import md5 from 'md5';
+import FormData from 'form-data';
 
 interface onesky_params {
     PUBLIC_KEY: string;
@@ -47,7 +47,7 @@ function isFile(payload: request_payload): payload is request_payload_files_uplo
     return (<request_payload_files_upload>payload).file !== undefined;
 }
 
-class OneSky {
+export class OneSky {
     private PUBLIC_KEY: string;
     private SECRET_KEY: string;
     private API_URL = 'https://platform.api.onesky.io/1';
@@ -356,5 +356,3 @@ class OneSky {
         status: (project_id: number, data: object) => this.make_request(`projects/${project_id}/translations/status`, "GET", data)
     }
 }
-
-export = OneSky;
