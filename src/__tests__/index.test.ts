@@ -1,4 +1,4 @@
-import OneSky from "../index";
+import { OneSky } from "../index";
 const onesky = new OneSky({ PUBLIC_KEY: "PUBLIC_KEY", SECRET_KEY: "SECRET_KEY" });
 
 const endpoints = {
