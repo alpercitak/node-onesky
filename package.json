@@ -1,6 +1,6 @@
 {
   "name": "node-onesky",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Node.js OneSky translation service API Client",
   "license": "MIT",
   "author": "Alper Çıtak <citak.alper@gmail.com>",
