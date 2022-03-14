@@ -8,7 +8,7 @@ import FormData = require('form-data');
 interface onesky_params {
     PUBLIC_KEY: string;
     SECRET_KEY: string
-};
+}
 
 interface request_payload {
 }
@@ -20,7 +20,7 @@ interface request_payload_files_list extends request_payload {
 
 interface request_payload_files_upload extends request_payload {
     file: {
-        value: any,
+        value: object,
         options: object
     },
     file_format: string,
@@ -50,7 +50,7 @@ function isFile(payload: request_payload): payload is request_payload_files_uplo
 class OneSky {
     private PUBLIC_KEY: string;
     private SECRET_KEY: string;
-    private API_URL: string = 'https://platform.api.onesky.io/1';
+    private API_URL = 'https://platform.api.onesky.io/1';
 
     constructor(params: onesky_params) {
         this.PUBLIC_KEY = params.PUBLIC_KEY;
@@ -117,8 +117,8 @@ class OneSky {
         * @param {String} data.file File contains strings to translate
         * @param {String} data.file_format Specify the input format. [HIERARCHICAL_JSON]
         * @param {String=} data.locale Specify the input language. If locale is different from base language, the strings will add to translation strings.
-        * @param {Boolean=} data.is_keeping_all_strings For strings that cannot be found in newly uploaded file with same file name, keep those strings unchange if set to true. Deprecate those strings if set to false. Notice that different files will not interfere each other in the same project. For example, with setting is_keeping_all_strings to false, uploading en2.po will not deprecate strings of previously uploaded file, en.po. [true* | false]
-        * @param {Boolean=} data.is_allow_translation_same_as_original This setting applies to translation upload, skip importing translations that are the same as source text if set to false. Keeping the translations that are the same as source text if set to true. [true | false*]
+        * @param {Boolean=} data.is_keeping_all_strings For strings that cannot be found in newly uploaded file with same file name, keep those strings unchange if set to true. Deprecate those strings if set to false. Notice that different files will not interfere each other in the same project. For example, with setting is_keeping_all_strings to false, uploading en2.po will not deprecate strings of previously uploaded file, en.po. [true*|false]
+        * @param {Boolean=} data.is_allow_translation_same_as_original This setting applies to translation upload, skip importing translations that are the same as source text if set to false. Keeping the translations that are the same as source text if set to true. [true|false*]
         * @returns {Object}
         */
         upload: (project_id: number, data: request_payload_files_upload) => this.make_request(`projects/${project_id}/files`, 'POST', data),
@@ -130,8 +130,8 @@ class OneSky {
         * @param {String} data.file File contains strings to translate
         * @param {String} data.file_format Specify the input format. [HIERARCHICAL_JSON]
         * @param {String=} data.locale Specify the input language. If locale is different from base language, the strings will add to translation strings.
-        * @param {Boolean=} data.is_keeping_all_strings For strings that cannot be found in newly uploaded file with same file name, keep those strings unchange if set to true. Deprecate those strings if set to false. Notice that different files will not interfere each other in the same project. For example, with setting is_keeping_all_strings to false, uploading en2.po will not deprecate strings of previously uploaded file, en.po. [true* | false]
-        * @param {Boolean=} data.is_allow_translation_same_as_original This setting applies to translation upload, skip importing translations that are the same as source text if set to false. Keeping the translations that are the same as source text if set to true. [true | false*]
+        * @param {Boolean=} data.is_keeping_all_strings For strings that cannot be found in newly uploaded file with same file name, keep those strings unchange if set to true. Deprecate those strings if set to false. Notice that different files will not interfere each other in the same project. For example, with setting is_keeping_all_strings to false, uploading en2.po will not deprecate strings of previously uploaded file, en.po. [true*|false]
+        * @param {Boolean=} data.is_allow_translation_same_as_original This setting applies to translation upload, skip importing translations that are the same as source text if set to false. Keeping the translations that are the same as source text if set to true. [true|false*]
         * @returns {Object}
         */
         delete: (project_id: number, data: request_payload_files_delete) => this.make_request(`projects/${project_id}/files`, 'DELETE', data)
@@ -169,13 +169,13 @@ class OneSky {
         * @param {Object} data Query string data
         * @param {Array} data.files Files to be translated in the order [['en.json']]
         * @param {String} data.to_locale Target language to tranlate [es]
-        * @param {String=} data.order_type Specify type of order. [translate-only | review-only (default) | translate-review]
+        * @param {String=} data.order_type Specify type of order. [translate-only|review-only*|translate-review]
         * @param {Boolean=} data.is_including_not_translated Include not translated phrases to translate
         * @param {Boolean=} data.is_including_not_approved Include not approved phrases to translate
         * @param {Boolean=} data.is_including_outdated Include outdated phrases to translate that is updated since last order.
-        * @param {String=} data.translator_type Specify type of translator used in translation. [preferred (default) | fastest]
-        * @param {String=} data.tone Specify the tone used in translation. [not-specified (default) | format | informal]
-        * @param {String=} data.specialization Specify specialization in order to translate phrases in a specific area. [general | game]
+        * @param {String=} data.translator_type Specify type of translator used in translation. [preferred*|fastest]
+        * @param {String=} data.tone Specify the tone used in translation. [not-specified*|format|informal]
+        * @param {String=} data.specialization Specify specialization in order to translate phrases in a specific area. [general|game]
         * @param {String=} data.note Note to translator
         * @returns {Object}
         */
@@ -195,7 +195,7 @@ class OneSky {
         * @param {Number} project_group_id 
         * @returns {Object}
         */
-        show: (project_group_id: Number) => this.make_request(`project-groups/${project_group_id}`, 'GET'),
+        show: (project_group_id: number) => this.make_request(`project-groups/${project_group_id}`, 'GET'),
 
         /**
         * 
@@ -211,14 +211,14 @@ class OneSky {
         * @param {Number} project_group_id 
         * @returns 
         */
-        delete: (project_group_id: Number) => this.make_request(`project-groups/${project_group_id} `, 'DELETE'),
+        delete: (project_group_id: number) => this.make_request(`project-groups/${project_group_id} `, 'DELETE'),
 
         /**
         * 
         * @param {Number} project_group_id 
         * @returns 
         */
-        languages: (project_group_id: Number) => this.make_request(`project-groups/${project_group_id}/languages`, 'GET')
+        languages: (project_group_id: number) => this.make_request(`project-groups/${project_group_id}/languages`, 'GET')
     };
     project_types = {
         /**
@@ -299,10 +299,10 @@ class OneSky {
         * @param {Object} data Query string data
         * @param {Number=} data.page Set page number to retrieve. (min: 1) (default: 1)
         * @param {Number=} data.per_page Set how many groups to retrieve for each time. (max: 100, min: 1)
-        * @param {String=} data.status Filter to show only import tasks of specific status with one of the followings [all (default) | completed | in-progress | failed]
+        * @param {String=} data.status Filter to show only import tasks of specific status with one of the followings [all*|completed|in-progress|failed]
         * @returns {Array}
         */
-        list: (project_id: number, data: any) => this.make_request(`projects/${project_id}/import-tasks`, "GET", data),
+        list: (project_id: number, data: object) => this.make_request(`projects/${project_id}/import-tasks`, "GET", data),
 
         /**
         * Show an import task
@@ -322,7 +322,7 @@ class OneSky {
         * @param {String=} data.export_file_name Specify the name of export file that is the file to be returned.
         * @returns {Promise<any>}
         */
-        export: (project_id: number, data: request_payload): Promise<any> => this.make_request(`projects/${project_id}/translations`, 'GET', data),
+        export: (project_id: number, data: request_payload) => this.make_request(`projects/${project_id}/translations`, 'GET', data),
 
         /**
         * Export translations in multilingual files
