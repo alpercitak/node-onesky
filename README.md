@@ -9,7 +9,7 @@ npm i node-onesky --save
 Create an instance with your OneSky Public Key and Secret Key
 
 ```js
-const OneSky = require("node-onesky");
+const OneSky = require("node-onesky").OneSky;
 const onesky = new OneSky({
     PUBLIC_KEY: process.env.ONESKY_PUBLIC_KEY, 
     SECRET_KEY: process.env.ONESKY_SECRET_KEY
