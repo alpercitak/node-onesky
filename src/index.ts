@@ -80,7 +80,9 @@ export class OneSky {
     if (isFile(payload)) {
       const form = new FormData();
       Object.keys(payload).map((x) => {
-        x === 'file' ? form.append(x, payload[x].value, payload[x].options) : form.append(x, payload[x as keyof request_payload_files_upload]);
+        x === 'file'
+          ? form.append(x, payload[x].value, payload[x].options)
+          : form.append(x, payload[x as keyof request_payload_files_upload]);
       });
       request_options.headers = {
         ...request_options.headers,
@@ -104,7 +106,8 @@ export class OneSky {
      * @param {Number=} data.per_page Set how many groups to retrieve for each time. (max: 100, min: 1)
      * @returns {Object}
      */
-    list: (project_id: number, data: request_payload_files_list) => this.make_request(`projects/${project_id}/files`, 'GET', data),
+    list: (project_id: number, data: request_payload_files_list) =>
+      this.make_request(`projects/${project_id}/files`, 'GET', data),
 
     /**
      * Upload a file
@@ -117,7 +120,8 @@ export class OneSky {
      * @param {Boolean=} data.is_allow_translation_same_as_original This setting applies to translation upload, skip importing translations that are the same as source text if set to false. Keeping the translations that are the same as source text if set to true. [true|false*]
      * @returns {Object}
      */
-    upload: (project_id: number, data: request_payload_files_upload) => this.make_request(`projects/${project_id}/files`, 'POST', data),
+    upload: (project_id: number, data: request_payload_files_upload) =>
+      this.make_request(`projects/${project_id}/files`, 'POST', data),
 
     /**
      * Upload a file
@@ -130,7 +134,8 @@ export class OneSky {
      * @param {Boolean=} data.is_allow_translation_same_as_original This setting applies to translation upload, skip importing translations that are the same as source text if set to false. Keeping the translations that are the same as source text if set to true. [true|false*]
      * @returns {Object}
      */
-    delete: (project_id: number, data: request_payload_files_delete) => this.make_request(`projects/${project_id}/files`, 'DELETE', data),
+    delete: (project_id: number, data: request_payload_files_delete) =>
+      this.make_request(`projects/${project_id}/files`, 'DELETE', data),
   };
   locales = {
     /**
@@ -157,7 +162,8 @@ export class OneSky {
      * @param {Number} order_id Order Id
      * @returns {Object}
      */
-    show: (project_id: number, order_id: number) => this.make_request(`projects/${project_id}/orders/${order_id}`, 'GET'),
+    show: (project_id: number, order_id: number) =>
+      this.make_request(`projects/${project_id}/orders/${order_id}`, 'GET'),
 
     /**
      * Create a new order
@@ -247,7 +253,8 @@ export class OneSky {
      * @param {String=} data.description Project description
      * @returns {Object}
      */
-    create: (project_group_id: number, data: request_payload) => this.make_request(`project-groups/${project_group_id}/projects`, 'POST', data),
+    create: (project_group_id: number, data: request_payload) =>
+      this.make_request(`project-groups/${project_group_id}/projects`, 'POST', data),
 
     /**
      *
@@ -306,7 +313,8 @@ export class OneSky {
      * @param {Number} import_id Import Id
      * @returns {Object}
      */
-    show: (project_id: number, import_id: number) => this.make_request(`projects/${project_id}/import-tasks/${import_id}`, 'GET'),
+    show: (project_id: number, import_id: number) =>
+      this.make_request(`projects/${project_id}/import-tasks/${import_id}`, 'GET'),
   };
   translations = {
     /**
@@ -318,7 +326,8 @@ export class OneSky {
      * @param {String=} data.export_file_name Specify the name of export file that is the file to be returned.
      * @returns {Promise<any>}
      */
-    export: (project_id: number, data: request_payload) => this.make_request(`projects/${project_id}/translations`, 'GET', data),
+    export: (project_id: number, data: request_payload) =>
+      this.make_request(`projects/${project_id}/translations`, 'GET', data),
 
     /**
      * Export translations in multilingual files
@@ -329,7 +338,8 @@ export class OneSky {
      * @param {String=} data.file_format Specify export file format, if different from source file format.
      * @returns {Object}
      */
-    export_multilingual: (project_id: number, data: object) => this.make_request(`projects/${project_id}/translations/multilingual`, 'GET', data),
+    export_multilingual: (project_id: number, data: object) =>
+      this.make_request(`projects/${project_id}/translations/multilingual`, 'GET', data),
 
     /**
      * Export translations of App Store Description in JSON
@@ -338,7 +348,8 @@ export class OneSky {
      * @param {String} data.locale Specify language of translations to export.
      * @returns {Object}
      */
-    export_appdescriptions: (project_id: number, data: object) => this.make_request(`projects/${project_id}/translations/app-descriptions`, 'GET', data),
+    export_appdescriptions: (project_id: number, data: object) =>
+      this.make_request(`projects/${project_id}/translations/app-descriptions`, 'GET', data),
 
     /**
      * Translations status
@@ -349,6 +360,7 @@ export class OneSky {
      * @param {String} data.locale Specify language of translations to export.
      * @returns {Object}
      */
-    status: (project_id: number, data: object) => this.make_request(`projects/${project_id}/translations/status`, 'GET', data),
+    status: (project_id: number, data: object) =>
+      this.make_request(`projects/${project_id}/translations/status`, 'GET', data),
   };
 }
