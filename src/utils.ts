@@ -1,3 +1,5 @@
-function isFile(payload: request_payload): payload is request_payload_files_upload {
-  return (<request_payload_files_upload>payload).file !== undefined;
+import type { RequestPayload, RequestPayloadFilesUpload } from './types';
+
+export function isFile(payload: RequestPayload): payload is RequestPayloadFilesUpload {
+  return (<RequestPayloadFilesUpload>payload).file !== undefined;
 }

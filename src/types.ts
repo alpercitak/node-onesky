@@ -1,16 +1,16 @@
-interface onesky_params {
+export interface OneskyParams {
   PUBLIC_KEY: string;
   SECRET_KEY: string;
 }
 
-interface request_payload {}
+export interface RequestPayload {}
 
-interface request_payload_files_list extends request_payload {
+export interface RequestPayloadFilesList extends RequestPayload {
   page?: number;
   per_page?: number;
 }
 
-interface request_payload_files_upload extends request_payload {
+export interface RequestPayloadFilesUpload extends RequestPayload {
   file: {
     value: object;
     options: object;
@@ -21,16 +21,16 @@ interface request_payload_files_upload extends request_payload {
   is_allow_translation_same_as_original?: boolean;
 }
 
-interface request_payload_files_delete extends request_payload {
+export interface RequestPayloadFilesDelete extends RequestPayload {
   file_name: string;
 }
 
-interface request_payload_project_groups_list extends request_payload {
+export interface RequestPayloadProjectGroupsList extends RequestPayload {
   page?: number;
   per_page?: number;
 }
 
-interface request_payload_project_groups_create extends request_payload {
+export interface RequestPayloadProjectGroupsCreate extends RequestPayload {
   name: string;
   locale?: string;
 }

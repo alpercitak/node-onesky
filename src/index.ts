@@ -4,13 +4,23 @@ import url from 'url';
 import request, { type AxiosRequestConfig } from 'axios';
 import md5 from 'md5';
 import FormData from 'form-data';
+import type {
+  OneskyParams,
+  RequestPayload,
+  RequestPayloadFilesDelete,
+  RequestPayloadFilesList,
+  RequestPayloadFilesUpload,
+  RequestPayloadProjectGroupsCreate,
+  RequestPayloadProjectGroupsList,
+} from './types';
+import { isFile } from './utils';
 
 export class OneSky {
   private PUBLIC_KEY: string;
   private SECRET_KEY: string;
   private API_URL = 'https://platform.api.onesky.io/1';
 
-  constructor(params: onesky_params) {
+  constructor(params: OneskyParams) {
     this.PUBLIC_KEY = params.PUBLIC_KEY;
     this.SECRET_KEY = params.SECRET_KEY;
   }
@@ -21,7 +31,7 @@ export class OneSky {
     return options;
   };
 
-  private make_request = async (request_url: string, request_method: string, payload: request_payload = {}) => {
+  private make_request = async (request_url: string, request_method: string, payload: RequestPayload = {}) => {
     const auth = this.get_auth();
     const query_string = { ...auth };
     if (request_method == 'GET' || request_method == 'DELETE') {
@@ -38,10 +48,13 @@ export class OneSky {
 
     if (isFile(payload)) {
       const form = new FormData();
-      Object.keys(payload).map((x) => {
-        x === 'file'
-          ? form.append(x, payload[x].value, payload[x].options)
-          : form.append(x, payload[x as keyof request_payload_files_upload]);
+      const fileUploadPayload = payload as RequestPayloadFilesUpload;
+      Object.keys(payload).forEach((x) => {
+        if (x === 'file') {
+          form.append(x, fileUploadPayload[x].value, fileUploadPayload[x].options);
+        } else {
+          form.append(x, fileUploadPayload[x as keyof RequestPayloadFilesUpload]);
+        }
       });
       request_options.headers = {
         ...request_options.headers,
@@ -65,7 +78,7 @@ export class OneSky {
      * @param {Number=} data.per_page Set how many groups to retrieve for each time. (max: 100, min: 1)
      * @returns {Object}
      */
-    list: (project_id: number, data: request_payload_files_list) =>
+    list: (project_id: number, data: RequestPayloadFilesList) =>
       this.make_request(`projects/${project_id}/files`, 'GET', data),
 
     /**
@@ -79,7 +92,7 @@ export class OneSky {
      * @param {Boolean=} data.is_allow_translation_same_as_original This setting applies to translation upload, skip importing translations that are the same as source text if set to false. Keeping the translations that are the same as source text if set to true. [true|false*]
      * @returns {Object}
      */
-    upload: (project_id: number, data: request_payload_files_upload) =>
+    upload: (project_id: number, data: RequestPayloadFilesUpload) =>
       this.make_request(`projects/${project_id}/files`, 'POST', data),
 
     /**
@@ -93,7 +106,7 @@ export class OneSky {
      * @param {Boolean=} data.is_allow_translation_same_as_original This setting applies to translation upload, skip importing translations that are the same as source text if set to false. Keeping the translations that are the same as source text if set to true. [true|false*]
      * @returns {Object}
      */
-    delete: (project_id: number, data: request_payload_files_delete) =>
+    delete: (project_id: number, data: RequestPayloadFilesDelete) =>
       this.make_request(`projects/${project_id}/files`, 'DELETE', data),
   };
   locales = {
@@ -149,7 +162,7 @@ export class OneSky {
      * @param {Number=} query_string.per_page Set how many groups to retrieve for each time. (max: 100, min: 1)
      * @returns {Array}
      */
-    list: (data: request_payload_project_groups_list) => this.make_request('project-groups', 'GET', data),
+    list: (data: RequestPayloadProjectGroupsList) => this.make_request('project-groups', 'GET', data),
 
     /**
      *
@@ -165,7 +178,7 @@ export class OneSky {
      * @param {String=} data.locale Locale code of the project group base language. (default: en | example: zh-TW)
      * @returns {Object}
      */
-    create: (data: request_payload_project_groups_create) => this.make_request('project-groups', 'POST', data),
+    create: (data: RequestPayloadProjectGroupsCreate) => this.make_request('project-groups', 'POST', data),
 
     /**
      *
@@ -212,7 +225,7 @@ export class OneSky {
      * @param {String=} data.description Project description
      * @returns {Object}
      */
-    create: (project_group_id: number, data: request_payload) =>
+    create: (project_group_id: number, data: RequestPayload) =>
       this.make_request(`project-groups/${project_group_id}/projects`, 'POST', data),
 
     /**
@@ -223,7 +236,7 @@ export class OneSky {
      * @param {String=} data.description Project description
      * @returns {Object}
      */
-    update: (project_id: number, data: request_payload) => this.make_request(`projects/${project_id}`, 'PUT', data),
+    update: (project_id: number, data: RequestPayload) => this.make_request(`projects/${project_id}`, 'PUT', data),
 
     /**
      *
@@ -285,7 +298,7 @@ export class OneSky {
      * @param {String=} data.export_file_name Specify the name of export file that is the file to be returned.
      * @returns {Promise<any>}
      */
-    export: (project_id: number, data: request_payload) =>
+    export: (project_id: number, data: RequestPayload) =>
       this.make_request(`projects/${project_id}/translations`, 'GET', data),
 
     /**
