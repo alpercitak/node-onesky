@@ -25,23 +25,22 @@ export class OneSky {
     this.SECRET_KEY = params.SECRET_KEY;
   }
 
-  private get_auth = (): object => {
+  private getAuth = (): { api_key: string; dev_hash: string; timestamp: string } => {
     const timestamp = Math.floor(Date.now() / 1000);
-    const options = { api_key: this.PUBLIC_KEY, dev_hash: md5(timestamp + this.SECRET_KEY), timestamp: timestamp };
-    return options;
+    return { api_key: this.PUBLIC_KEY, dev_hash: md5(timestamp + this.SECRET_KEY), timestamp: String(timestamp) };
   };
 
-  private make_request = async (request_url: string, request_method: string, payload: RequestPayload = {}) => {
-    const auth = this.get_auth();
-    const query_string = { ...auth };
-    if (request_method == 'GET' || request_method == 'DELETE') {
-      Object.assign(query_string, payload);
+  private make_request = async (requestUrl: string, requestMethod: string, payload: RequestPayload = {}) => {
+    const auth = this.getAuth();
+    const queryString = { ...auth };
+    if (requestMethod == 'GET' || requestMethod == 'DELETE') {
+      Object.assign(queryString, payload);
     }
-    const final_query_string = new url.URLSearchParams(query_string);
-    const final_url = `${this.API_URL}/${request_url}?${final_query_string}`;
+    const finalQueryString = new url.URLSearchParams(queryString);
+    const finalUrl = `${this.API_URL}/${requestUrl}?${finalQueryString}`;
     const request_options = <AxiosRequestConfig>{
-      url: final_url,
-      method: request_method,
+      url: finalUrl,
+      method: requestMethod,
       headers: { accept: 'application/json' },
       data: payload,
     };
